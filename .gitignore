@@ -19,3 +19,9 @@
 *.exe
 *.out
 *.app
+
+# OSX
+.DS_Store
+
+# Test project
+testProject

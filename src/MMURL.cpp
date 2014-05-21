@@ -1,6 +1,6 @@
 //
-//  MMcURLRequest.cpp
-//  MMcURLpp
+//  MMURL.cpp
+//  MMURLpp
 //
 //  Created by Manuele Maggi on 27/04/14.
 //  email: manuele.maggi@gmail.com
@@ -19,21 +19,4 @@
 //  limitations under the License.
 //
 
-#include "MMcURLRequest.h"
-
-static const MMcURL_TimeInterval_t kDefaultTimeOut = 30.0;
-
-MMcURLRequest::MMcURLRequest(const MMcURL& URL) {
-    
-    _URL = URL;
-    _timeout = kDefaultTimeOut;
-}
-
-MMcURLRequest::~MMcURLRequest() {
-    
-}
-
-MMcURL MMcURLRequest::URL() {
-    
-    return _URL;
-}
+#include "MMURL.h"

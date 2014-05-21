@@ -1,6 +1,6 @@
 //
-//  MMcURLResponse.h
-//  MMcURLpp
+//  MMURLRequest.cpp
+//  MMURLpp
 //
 //  Created by Manuele Maggi on 27/04/14.
 //  email: manuele.maggi@gmail.com
@@ -19,22 +19,21 @@
 //  limitations under the License.
 //
 
-#ifndef __MMcURLpp__MMcURLResponse__
-#define __MMcURLpp__MMcURLResponse__
+#include "MMURLRequest.h"
 
-#include <iostream>
-#include "MMcURLTypes.h"
+static const MMURL_TimeInterval_t kDefaultTimeOut = 30.0;
 
-class MMcURLResponse {
+MMURLRequest::MMURLRequest(const MMURL& URL) {
     
-protected:
-    
-    MMcURL_RESPONSE_CODE_t _responseCode;
-    
-public:
-    
-    MMcURLResponse(MMcURL_RESPONSE_CODE_t responseCode);
-    MMcURL_RESPONSE_CODE_t ResponseCode();
-};
+    _URL = URL;
+    _timeout = kDefaultTimeOut;
+}
 
-#endif /* defined(__MMcURLpp__MMcURLResponse__) */
+MMURLRequest::~MMURLRequest() {
+    
+}
+
+MMURL MMURLRequest::URL() {
+    
+    return _URL;
+}

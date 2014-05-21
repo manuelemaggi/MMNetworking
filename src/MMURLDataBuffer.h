@@ -1,6 +1,6 @@
 //
-//  MMcURLDataBuffer.h
-//  MMcURLpp
+//  MMURLDataBuffer.h
+//  MMURLpp
 //
 //  Created by Manuele Maggi on 27/04/14.
 //  email: manuele.maggi@gmail.com
@@ -19,24 +19,18 @@
 //  limitations under the License.
 //
 
-#ifndef __MMcURLpp__MMcURLDataBuffer__
-#define __MMcURLpp__MMcURLDataBuffer__
+#ifndef __MMURLpp__MMURLDataBuffer__
+#define __MMURLpp__MMURLDataBuffer__
 
 #include <iostream>
+#include "MMURLData.h"
 
-class MMcURLDataBuffer {
-    
-private:
-    void *_data;
-    size_t _lenght;
+class MMURLDataBuffer : public MMURLData {
     
 public:
-    MMcURLDataBuffer ();
-    ~MMcURLDataBuffer ();
+    MMURLDataBuffer ();
     
     void AppendData(void *data, size_t lenght);
-    void* Data();
-    size_t Lenght();
 };
 
-#endif /* defined(__MMcURLpp__MMcURLDataBuffer__) */
+#endif /* defined(__MMURLpp__MMURLDataBuffer__) */

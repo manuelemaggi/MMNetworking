@@ -1,6 +1,6 @@
 //
-//  MMcURL.cpp
-//  MMcURLpp
+//  MMURLTypes.h
+//  MMURLpp
 //
 //  Created by Manuele Maggi on 27/04/14.
 //  email: manuele.maggi@gmail.com
@@ -19,4 +19,10 @@
 //  limitations under the License.
 //
 
-#include "MMcURL.h"
+#ifndef MMURLpp_MMURLTypes_h
+#define MMURLpp_MMURLTypes_h
+
+typedef double  MMURL_TimeInterval_t;
+typedef int     MMURL_RESPONSE_CODE_t;
+
+#endif

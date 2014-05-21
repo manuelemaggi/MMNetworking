@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "328DE5C2190BBA170007B358"
                BuildableName = "MMcURLpp"
-               BlueprintName = "MMcURLpp"
-               ReferencedContainer = "container:MMcURLpp.xcodeproj">
+               BlueprintName = "MMNetworking"
+               ReferencedContainer = "container:MMNetworking.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "328DE5C2190BBA170007B358"
             BuildableName = "MMcURLpp"
-            BlueprintName = "MMcURLpp"
-            ReferencedContainer = "container:MMcURLpp.xcodeproj">
+            BlueprintName = "MMNetworking"
+            ReferencedContainer = "container:MMNetworking.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -53,8 +53,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "328DE5C2190BBA170007B358"
             BuildableName = "MMcURLpp"
-            BlueprintName = "MMcURLpp"
-            ReferencedContainer = "container:MMcURLpp.xcodeproj">
+            BlueprintName = "MMNetworking"
+            ReferencedContainer = "container:MMNetworking.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -71,8 +71,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "328DE5C2190BBA170007B358"
             BuildableName = "MMcURLpp"
-            BlueprintName = "MMcURLpp"
-            ReferencedContainer = "container:MMcURLpp.xcodeproj">
+            BlueprintName = "MMNetworking"
+            ReferencedContainer = "container:MMNetworking.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -1,6 +1,6 @@
 //
-//  MMcURLTypes.h
-//  MMcURLpp
+//  MMURLDataBuffer.cpp
+//  MMURLpp
 //
 //  Created by Manuele Maggi on 27/04/14.
 //  email: manuele.maggi@gmail.com
@@ -19,24 +19,28 @@
 //  limitations under the License.
 //
 
-#ifndef MMcURLpp_MMcURLTypes_h
-#define MMcURLpp_MMcURLTypes_h
+#include "MMURLDataBuffer.h"
 
-typedef double MMcURL_TimeInterval_t;
+MMURLDataBuffer::MMURLDataBuffer () {
 
-typedef enum {
-    
-    MMcURL_HTTPMethod_GET = 0,
-    MMcURL_HTTPMethod_POST,
-    MMcURL_HTTPMethod_PUT,
-    MMcURL_HTTPMethod_DELETE,
-    
-} MMcURL_HTTPMethod_t;
+    _lenght = 0;
+    _data = NULL;
+}
 
-typedef enum {
+void MMURLDataBuffer::AppendData(void *data, size_t lenght) {
     
-    MMcURL_RESPONSE_CODE_OK = 200,
+    if (lenght <= 0) {
+        return;
+    }
     
-} MMcURL_RESPONSE_CODE_t;
+    if (_data != NULL) {
+        _data = malloc(lenght);
+    }
+    else {
+        _data = realloc(_data, this->_lenght + lenght);
+    }
+    
+    _data = memcpy(_data, data, lenght);
+    _lenght += lenght;
+}
 
-#endif

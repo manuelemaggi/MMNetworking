@@ -1,6 +1,6 @@
 //
-//  MMcURL.h
-//  MMcURLpp
+//  MMURLResponse.cpp
+//  MMURLpp
 //
 //  Created by Manuele Maggi on 27/04/14.
 //  email: manuele.maggi@gmail.com
@@ -19,18 +19,38 @@
 //  limitations under the License.
 //
 
-#ifndef __MMcURLpp__MMcURL__
-#define __MMcURLpp__MMcURL__
+#include "MMURLResponse.h"
 
-#include <iostream>
-
-class MMcURL : public std::string {
+MMURLResponse::MMURLResponse() {
     
-public:
-    MMcURL(void) : std::string() {}
-    MMcURL(const char* ch) : std::string(ch) {}
-    MMcURL(const std::string& str) : std::string(str) {}
-    MMcURL(const MMcURL& path) : std::string(path) {}
-};
+    _data = NULL;
+    SetResponseCode(0);
+}
 
-#endif /* defined(__MMcURLpp__MMcURL__) */
+MMURLResponse::MMURLResponse(MMURL_RESPONSE_CODE_t responseCode, MMURLData &data) {
+    
+    SetData(data);
+    SetResponseCode(responseCode);
+}
+
+MMURLResponse::~MMURLResponse() {
+    
+    if (_data != NULL) {
+        delete _data;
+    }
+}
+
+MMURL_RESPONSE_CODE_t MMURLResponse::ResponseCode() {
+    
+    return _responseCode;
+}
+
+void MMURLResponse::SetResponseCode(MMURL_RESPONSE_CODE_t code) {
+    
+    _responseCode = code;
+}
+
+void MMURLResponse::SetData(MMURLData& data) {
+    
+    _data = new MMURLData(data.Data(), data.Lenght());
+}

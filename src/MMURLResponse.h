@@ -1,6 +1,6 @@
 //
-//  MMcURLResponse.cpp
-//  MMcURLpp
+//  MMURLResponse.h
+//  MMURLpp
 //
 //  Created by Manuele Maggi on 27/04/14.
 //  email: manuele.maggi@gmail.com
@@ -19,14 +19,31 @@
 //  limitations under the License.
 //
 
-#include "MMcURLResponse.h"
+#ifndef __MMURLpp__MMURLResponse__
+#define __MMURLpp__MMURLResponse__
 
-MMcURLResponse::MMcURLResponse(MMcURL_RESPONSE_CODE_t responseCode) {
-    
-    _responseCode = responseCode;
-}
+#include <iostream>
+#include "MMURLTypes.h"
+#include "MMURLData.h"
 
-MMcURL_RESPONSE_CODE_t MMcURLResponse::ResponseCode() {
+class MMURLResponse {
     
-    return _responseCode;
-}
+    friend class MMURLConnection;
+    
+protected:
+    
+    MMURL_RESPONSE_CODE_t _responseCode;
+    MMURLData *_data;
+    
+    void SetResponseCode(MMURL_RESPONSE_CODE_t code);
+    void SetData(MMURLData& data);
+    
+public:
+    
+    MMURLResponse();
+    ~MMURLResponse();
+    MMURLResponse(MMURL_RESPONSE_CODE_t responseCode, MMURLData &data);
+    MMURL_RESPONSE_CODE_t ResponseCode();
+};
+
+#endif /* defined(__MMURLpp__MMURLResponse__) */

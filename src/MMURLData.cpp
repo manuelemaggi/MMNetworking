@@ -1,8 +1,8 @@
 //
-//  MMcURLHTTPUtilities.h
-//  MMcURLpp
+//  MMURLData.cpp
+//  MMURLpp
 //
-//  Created by Manuele Maggi on 27/04/14.
+//  Created by Manuele Maggi on 07/05/14.
 //  email: manuele.maggi@gmail.com
 //  Copyright (c) 2014 Manuele Maggi. All rights reserved.
 //
@@ -19,17 +19,40 @@
 //  limitations under the License.
 //
 
-#ifndef __MMcURLpp__MMcURLHTTPUtilities__
-#define __MMcURLpp__MMcURLHTTPUtilities__
+#include "MMURLData.h"
 
-#include <iostream>
-#include "MMcURLTypes.h"
+MMURLData::MMURLData () {
+    
+    _lenght = 0;
+    _data = NULL;
+}
 
-extern const char* MMcURL_HTTP_REQUEST_OPTION_GET;
-extern const char* MMcURL_HTTP_REQUEST_OPTION_POST;
-extern const char* MMcURL_HTTP_REQUEST_OPTION_PUT;
-extern const char* MMcURL_HTTP_REQUEST_OPTION_DELETE;
+MMURLData::MMURLData (void *data, size_t lenght) {
+    
+    _lenght = 0;
+    _data = NULL;
 
-const char* RequestOptionWithHTTPMethod(MMcURL_HTTPMethod_t httpMethod);
+    if (lenght > 0) {
+        
+        _data = malloc(lenght);
+        _data = memcpy(_data, data, lenght);
+        _lenght = lenght;
+    }
+}
 
-#endif /* defined(__MMcURLpp__MMcURLHTTPUtilities__) */
+MMURLData::~MMURLData () {
+        
+    if (_data != NULL) {
+        free(_data);
+    }
+}
+
+void* MMURLData::Data() {
+    
+    return _data;
+}
+
+size_t MMURLData::Lenght() {
+    
+    return _lenght;
+}

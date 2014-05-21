@@ -1,8 +1,8 @@
 //
-//  MMcURLDataBuffer.cpp
-//  MMcURLpp
+//  MMURLConnectionDelegate.h
+//  MMURLpp
 //
-//  Created by Manuele Maggi on 27/04/14.
+//  Created by Manuele Maggi on 07/05/14.
 //  email: manuele.maggi@gmail.com
 //  Copyright (c) 2014 Manuele Maggi. All rights reserved.
 //
@@ -19,40 +19,34 @@
 //  limitations under the License.
 //
 
-#include "MMcURLDataBuffer.h"
+#ifndef __MMURLpp__MMURLConnectionDelegate__
+#define __MMURLpp__MMURLConnectionDelegate__
 
-MMcURLDataBuffer::MMcURLDataBuffer () {
+#include <iostream>
+#include "MMURLResponse.h"
 
-    _lenght = 0;
-}
-
-MMcURLDataBuffer::~MMcURLDataBuffer () {
+class MMURLConnectionDelegate {
     
-    if (_lenght != 0) {
-        free(_data);
-    }
-}
-
-void* MMcURLDataBuffer::Data() {
+private:
     
-    return _data;
-}
-
-size_t MMcURLDataBuffer::Lenght() {
+    typedef void (*func_ptr_t)(MMURLResponse&, void*);
+    void *_context;
+    func_ptr_t _fp;
     
-    return _lenght;
-}
-
-void MMcURLDataBuffer::AppendData(void *data, size_t lenght) {
+public:
     
-    if (_lenght == 0) {
-        _data = malloc(lenght);
-    }
-    else {
-        _data = realloc(_data, this->_lenght + lenght);
+    MMURLConnectionDelegate(func_ptr_t fp, void* context) {
+        
+        _fp = fp;
+        _context = context;
     }
     
-    _data = memcpy(_data, data, lenght);
-    _lenght += lenght;
-}
+    void Invoke(MMURLResponse& param) {
+        
+        if (_fp != NULL) {
+            (*_fp)(param, _context);
+        }
+    }
+};
 
+#endif /* defined(__MMURLpp__MMURLConnectionDelegate__) */

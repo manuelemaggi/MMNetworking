@@ -1,6 +1,6 @@
 //
-//  MMcURLConnection.cpp
-//  MMcURLpp
+//  MMURLConnection.cpp
+//  MMURLpp
 //
 //  Created by Manuele Maggi on 27/04/14.
 //  email: manuele.maggi@gmail.com
@@ -19,15 +19,14 @@
 //  limitations under the License.
 //
 
-#include "MMcURLConnection.h"
-#include "MMcURLHTTPUtilities.h"
+#include "MMURLConnection.h"
 #include <unistd.h>
 
-typedef CURLcode MMcURLcode;
-static const MMcURLcode MMcURLCodeInvalid = (CURLcode)(-1);
+typedef CURLcode MMURLcode;
+static const MMURLcode MMURLCodeInvalid = (CURLcode)(-1);
 
-CURLcode MMcURLConnection::_curlGlobalInitCode = MMcURLCodeInvalid;
-CURLcode MMcURLConnection::CurlGlobalInit () {
+CURLcode MMURLConnection::_curlGlobalInitCode = MMURLCodeInvalid;
+CURLcode MMURLConnection::CurlGlobalInit () {
     
     if (CURLE_OK != _curlGlobalInitCode) {
         _curlGlobalInitCode = curl_global_init(CURL_GLOBAL_ALL);
@@ -36,33 +35,35 @@ CURLcode MMcURLConnection::CurlGlobalInit () {
     return _curlGlobalInitCode;
 }
 
-MMcURLConnection::MMcURLConnection(const MMcURLRequest& request) {
+MMURLConnection::MMURLConnection(const MMURLRequest& request) {
     
     CurlGlobalInit();
     _curl = curl_easy_init();
-    _headerBuffer = new MMcURLDataBuffer();
-    _bodyBuffer = new MMcURLDataBuffer();
+    _headerBuffer = new MMURLDataBuffer();
+    _bodyBuffer = new MMURLDataBuffer();
+    _response = MMURLResponse();
+    _delegate = NULL;
     
     SetRequest(request);
 }
 
-MMcURLConnection::~MMcURLConnection() {
+MMURLConnection::~MMURLConnection() {
 
     this->Cancel();
     delete _headerBuffer;
     delete _bodyBuffer;
 }
 
-void MMcURLConnection::Start() {
+void MMURLConnection::Start() {
     
     int error;
     error = pthread_create(&_tid,
                            NULL, /* default attributes please */
-                           MMcURLConnection::PerformHelper,
+                           MMURLConnection::PerformHelper,
                            (void*)this);
 }
 
-void MMcURLConnection::Cancel() {
+void MMURLConnection::Cancel() {
     
     if (_curl) {
         curl_easy_cleanup(_curl);
@@ -74,47 +75,56 @@ void MMcURLConnection::Cancel() {
 
 #pragma mark - Private functions
 
-void MMcURLConnection::SetRequest(const MMcURLRequest& request) {
+void MMURLConnection::SetRequest(const MMURLRequest& request) {
     
     _request = request;
     
     curl_easy_setopt(_curl, CURLOPT_URL, _request.URL().c_str());
     curl_easy_setopt(_curl, CURLOPT_TIMEOUT, _request.TimeOutInterval());
-    curl_easy_setopt(_curl, CURLOPT_CUSTOMREQUEST, RequestOptionWithHTTPMethod(_request.HTTPMethod()));
+    curl_easy_setopt(_curl, CURLOPT_CUSTOMREQUEST,
+                     (_request.Method().length() > 0 ? _request.Method().c_str() : MMURLRequest::METHOD_GET));
 }
 
-size_t MMcURLConnection::HandleResponse(void *ptr, size_t size, size_t nmemb, void *context) {
+size_t MMURLConnection::HandleResponse(void *ptr, size_t size, size_t nmemb, void *context) {
 
-    MMcURLConnection *connection = static_cast<MMcURLConnection*>(context);
+    MMURLConnection *connection = static_cast<MMURLConnection*>(context);
     connection->_headerBuffer->AppendData(ptr, nmemb);
     
     // End of Headers stream
     if (nmemb == 2) {
         long code;
         curl_easy_getinfo(connection->_curl, CURLINFO_RESPONSE_CODE, &code);
-        std::cout << code << std::endl;
+
+        connection->_response.SetResponseCode(MMURL_RESPONSE_CODE_t(code));
     }
 
     return size*nmemb;
 }
 
-size_t MMcURLConnection::HandleBody(void *ptr, size_t size, size_t nmemb, void *context) {
+size_t MMURLConnection::HandleBody(void *ptr, size_t size, size_t nmemb, void *context) {
     
-    MMcURLConnection *connection = static_cast<MMcURLConnection*>(context);
+    MMURLConnection *connection = static_cast<MMURLConnection*>(context);
     connection->_bodyBuffer->AppendData(ptr, nmemb);
     
     return size*nmemb;
 }
 
-void* MMcURLConnection::Perform() {
+void* MMURLConnection::Perform() {
 
     curl_easy_setopt(_curl, CURLOPT_HEADERDATA, this);
-    curl_easy_setopt(_curl, CURLOPT_HEADERFUNCTION, MMcURLConnection::HandleResponse);
+    curl_easy_setopt(_curl, CURLOPT_HEADERFUNCTION, MMURLConnection::HandleResponse);
     
     curl_easy_setopt(_curl, CURLOPT_WRITEDATA, this);
-    curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, MMcURLConnection::HandleBody);
+    curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, MMURLConnection::HandleBody);
     
-    curl_easy_perform(_curl); /* ignores error */
+    curl_easy_perform(_curl);
+    _curl = NULL;
+
+    _response.SetData(*_bodyBuffer);
+
+    if (_delegate != NULL) {
+        _delegate->Invoke(_response);
+    }
     
     return NULL;
 }

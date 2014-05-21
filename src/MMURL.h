@@ -1,5 +1,5 @@
 //
-//  main.cpp
+//  MMURL.h
 //  MMURLpp
 //
 //  Created by Manuele Maggi on 27/04/14.
@@ -19,28 +19,18 @@
 //  limitations under the License.
 //
 
+#ifndef __MMURLpp__MMURL__
+#define __MMURLpp__MMURL__
+
 #include <iostream>
-#include <unistd.h>
-#include "MMURLConnection.h"
 
-void responseHandler(MMURLResponse& response, void* conext);
-
-int main(int argc, const char * argv[])
-{
-    MMURLConnectionDelegate delegate = MMURLConnectionDelegate(&responseHandler, NULL);
-
-    MMURL url = MMURL("http://curl.haxx.se/");
-    MMURLRequest request = MMURLRequest(url);
-    MMURLConnection connection = MMURLConnection(request);
-    connection.SetDelegate(&delegate);
+class MMURL : public std::string {
     
-    connection.Start();
-    sleep(5);
-    
-    return 0;
-}
+public:
+    MMURL(void) : std::string() {}
+    MMURL(const char* ch) : std::string(ch) {}
+    MMURL(const std::string& str) : std::string(str) {}
+    MMURL(const MMURL& path) : std::string(path) {}
+};
 
-void responseHandler(MMURLResponse& response, void* conext) {
-
-    std::cout << "Response code : " << response.ResponseCode() << std::endl;
-}
+#endif /* defined(__MMURLpp__MMURL__) */

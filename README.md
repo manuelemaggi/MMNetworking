@@ -1,4 +1,4 @@
-MMcURLpp
+MMNetworking
 ========
 
-a libcurl c++ wrapper
+A c++ Networking library based on libcurl

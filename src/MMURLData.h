@@ -30,11 +30,12 @@ protected:
     
     void *_data;
     size_t _lenght;
-    
+        
 public:
     
     MMURLData ();
     MMURLData (void *data, size_t lenght);
+    MMURLData (MMURLData& data) : MMURLData(data.Data(), data.Lenght()) {};
     virtual ~MMURLData ();
     
     void* Data();

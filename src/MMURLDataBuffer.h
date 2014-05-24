@@ -29,7 +29,7 @@ class MMURLDataBuffer : public MMURLData {
     
 public:
     MMURLDataBuffer ();
-    
+    ~MMURLDataBuffer() {};
     void AppendData(void *data, size_t lenght);
 };
 

@@ -67,6 +67,7 @@ void MMURLConnection::Cancel() {
     
     if (_curl) {
         curl_easy_cleanup(_curl);
+        _curl = NULL;
     }
     if (_tid) {
         pthread_cancel(_tid);

@@ -41,9 +41,11 @@ MMURLData::MMURLData (void *data, size_t lenght) {
 }
 
 MMURLData::~MMURLData () {
-        
+    
     if (_data != NULL) {
         free(_data);
+        _data = NULL;
+        _lenght = 0;
     }
 }
 

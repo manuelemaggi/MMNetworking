@@ -52,7 +52,7 @@ void MMURLResponse::SetResponseCode(MMURL_RESPONSE_CODE_t code) {
 
 void MMURLResponse::SetData(MMURLData& data) {
     
-    _data = new MMURLData(data.Data(), data.Lenght());
+    _data = new MMURLData(data);
 }
 
 void MMURLResponse::SetHeadersData(MMURLData& data) {
@@ -63,4 +63,9 @@ void MMURLResponse::SetHeadersData(MMURLData& data) {
 std::string MMURLResponse::Headers() {
     
     return _headers;
+}
+
+MMURLData MMURLResponse::Data() {
+    
+    return *_data;
 }

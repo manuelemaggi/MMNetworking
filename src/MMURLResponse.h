@@ -47,6 +47,7 @@ public:
     MMURLResponse(MMURL_RESPONSE_CODE_t responseCode, MMURLData &data);
     MMURL_RESPONSE_CODE_t ResponseCode();
     std::string Headers();
+    MMURLData Data();
 };
 
 #endif /* defined(__MMURLpp__MMURLResponse__) */

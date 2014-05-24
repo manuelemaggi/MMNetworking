@@ -54,3 +54,13 @@ void MMURLResponse::SetData(MMURLData& data) {
     
     _data = new MMURLData(data.Data(), data.Lenght());
 }
+
+void MMURLResponse::SetHeadersData(MMURLData& data) {
+    
+    _headers = std::string(static_cast<char*>(data.Data()), data.Lenght());    
+}
+
+std::string MMURLResponse::Headers() {
+    
+    return _headers;
+}

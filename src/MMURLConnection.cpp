@@ -82,14 +82,14 @@ void MMURLConnection::SetRequest(const MMURLRequest& request) {
     curl_easy_setopt(_curl, CURLOPT_URL, _request.URL().c_str());
     curl_easy_setopt(_curl, CURLOPT_TIMEOUT, _request.TimeOutInterval());
     curl_easy_setopt(_curl, CURLOPT_CUSTOMREQUEST,
-                     (_request.Method().length() > 0 ? _request.Method().c_str() : MMURLRequest::METHOD_GET));
+                     (_request.Method().length() > 0 ? _request.Method().c_str() : MMURLRequest::METHOD_GET.c_str()));
 }
 
 size_t MMURLConnection::HandleResponse(void *ptr, size_t size, size_t nmemb, void *context) {
 
     MMURLConnection *connection = static_cast<MMURLConnection*>(context);
     connection->_headerBuffer->AppendData(ptr, nmemb);
-    
+
     // End of Headers stream
     if (nmemb == 2) {
         long code;
@@ -121,6 +121,7 @@ void* MMURLConnection::Perform() {
     _curl = NULL;
 
     _response.SetData(*_bodyBuffer);
+    _response.SetHeadersData(*_headerBuffer);
 
     if (_delegate != NULL) {
         _delegate->Invoke(_response);

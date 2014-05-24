@@ -34,9 +34,11 @@ protected:
     
     MMURL_RESPONSE_CODE_t _responseCode;
     MMURLData *_data;
+    std::string _headers;
     
     void SetResponseCode(MMURL_RESPONSE_CODE_t code);
     void SetData(MMURLData& data);
+    void SetHeadersData(MMURLData& data);
     
 public:
     
@@ -44,6 +46,7 @@ public:
     ~MMURLResponse();
     MMURLResponse(MMURL_RESPONSE_CODE_t responseCode, MMURLData &data);
     MMURL_RESPONSE_CODE_t ResponseCode();
+    std::string Headers();
 };
 
 #endif /* defined(__MMURLpp__MMURLResponse__) */

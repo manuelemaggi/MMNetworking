@@ -37,10 +37,10 @@ protected:
 public:
     
     // Constants
-    constexpr static char *const METHOD_GET     = "GET";
-    constexpr static char *const METHOD_POST    = "POST";
-    constexpr static char *const METHOD_PUT     = "PUT";
-    constexpr static char *const METHOD_DELETE  = "DELETE";
+    static const std::string METHOD_GET;
+    static const std::string METHOD_POST;
+    static const std::string METHOD_PUT;
+    static const std::string METHOD_DELETETE;
     
     // Creating Requests
 

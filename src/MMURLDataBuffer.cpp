@@ -33,14 +33,16 @@ void MMURLDataBuffer::AppendData(void *data, size_t lenght) {
         return;
     }
     
-    if (_data != NULL) {
+    if (_data == NULL) {
         _data = malloc(lenght);
     }
     else {
-        _data = realloc(_data, this->_lenght + lenght);
+        _data = realloc(_data, (_lenght + lenght));
     }
     
-    _data = memcpy(_data, data, lenght);
+    char *tempPtr = static_cast<char*>(_data);
+    
+    memcpy(tempPtr+_lenght, data, lenght);
     _lenght += lenght;
 }
 

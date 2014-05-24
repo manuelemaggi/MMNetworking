@@ -21,6 +21,11 @@
 
 #include "MMURLRequest.h"
 
+const std::string MMURLRequest::METHOD_GET      = "GET";
+const std::string MMURLRequest::METHOD_POST     = "POST";
+const std::string MMURLRequest::METHOD_PUT      = "PUT";
+const std::string MMURLRequest::METHOD_DELETETE = "DELETE";
+
 static const MMURL_TimeInterval_t kDefaultTimeOut = 30.0;
 
 MMURLRequest::MMURLRequest(const MMURL& URL) {
